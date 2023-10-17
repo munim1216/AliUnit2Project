@@ -19,6 +19,11 @@ public class LinearEquation {
     public double slope() {
         return Math.round(100 * ((double)(y2 - y1) / (x2 - x1))) / 100.0;
     }
+
+    public double unroundedSlope() {
+        return (double) (y2 - y1) / (x2 - x1);
+    }
+
     public double yIntercept() {
         return  Math.round(100 * (slope() * -x1 + y1)) / 100.0;
     }
@@ -52,5 +57,9 @@ public class LinearEquation {
         } else {
             return numerator + "/" + denominator;
         }
+    }
+
+    public String coordinateForX(int x) {
+        return "(" + x + ", " + (unroundedSlope() * x + yIntercept()) + ")";
     }
 }
