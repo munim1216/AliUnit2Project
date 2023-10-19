@@ -13,11 +13,11 @@ public class LinearEquation {
     }
 
     public double distance() {
-        return Math.round(100 * Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2))) / 100.0;
+        return roundedToHundreth(Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)));
     }
 
     public double slope() {
-        return Math.round(100 * ((double)(y2 - y1) / (x2 - x1))) / 100.0;
+        return roundedToHundreth((double) (y2 - y1) / (x2 - x1));
     }
 
     public double unroundedSlope() {
@@ -25,18 +25,19 @@ public class LinearEquation {
     }
 
     public double yIntercept() {
-        return  Math.round(100 * (slope() * -x1 + y1)) / 100.0;
+        return roundedToHundreth(slope() * -x1 + y1);
     }
+
     public String equation() {
         if (slope() == 0 && yIntercept() % 1 == 0) {
             // checking for horizontal slope of 0 & whole number intercept
-            return "y = " + (int)yIntercept();
+            return "y = " + (int) yIntercept();
         } else if (slope() == 0) {
             // checking for horizontal slope of 0 & not whole number intercept
-            return "y = " + (int)yIntercept();
+            return "y = " + (int) yIntercept();
         } else if (yIntercept() % 1 == 0) {
             // checking for whole number intercept
-            return "y = " + fractionMaker((y2 - y1), (x2 - x1)) + "x + " + (int)yIntercept();
+            return "y = " + fractionMaker((y2 - y1), (x2 - x1)) + "x + " + (int) yIntercept();
         } else {
             // all other cases
             return "y = " + fractionMaker((y2 - y1), (x2 - x1)) + "x + " + yIntercept();
@@ -61,5 +62,18 @@ public class LinearEquation {
 
     public String coordinateForX(int x) {
         return "(" + x + ", " + (unroundedSlope() * x + yIntercept()) + ")";
+    }
+
+    private double roundedToHundreth(double toRound) {
+        return Math.round(100 * toRound) / 100.0;
+    }
+
+    public String lineInfo() {
+        String lineInfo = "The two points are: (" + x1 + ", " + y1 + ") and (" + x2 + ", " + y2 + ")";
+        lineInfo += "\nThe equation of the line between these points is: " + equation();
+        lineInfo += "\nThe slope of this line is: " + slope();
+        lineInfo += "\nThe y-intercept of this line is: " + yIntercept();
+        lineInfo += "\nThe distance between these points is " + distance();
+        return lineInfo;
     }
 }

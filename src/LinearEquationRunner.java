@@ -5,5 +5,6 @@ public class LinearEquationRunner {
         System.out.println(test.yIntercept());
         System.out.println(test.equation());
         System.out.println(test.coordinateForX(4));
+        System.out.println(test.lineInfo());
     }
 }
