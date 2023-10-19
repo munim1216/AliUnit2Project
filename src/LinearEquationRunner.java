@@ -1,10 +1,5 @@
 public class LinearEquationRunner {
     public static void main(String[] args) {
-        LinearEquation test = new LinearEquation(-1,5,3,10);
-        System.out.println(test.slope());
-        System.out.println(test.yIntercept());
-        System.out.println(test.equation());
-        System.out.println(test.coordinateForX(4));
-        System.out.println(test.lineInfo());
+        LinearEquationLogic start = new LinearEquationLogic();
     }
 }
