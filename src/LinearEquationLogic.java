@@ -14,25 +14,30 @@ public class LinearEquationLogic {
         start();
     }
 
-    public void start() {
-        welcome();
-    }
+    // getter methods
     public int getX1() {return x1;}
     public int getX2() {return x2;}
     public int getY1() {return y1;}
     public int getY2() {return y2;}
 
+    public void start() {
+        welcome();
+    }
+
     public void welcome() {
         System.out.println("Hello User!");
         System.out.print("Type your first coordinate, in format (x, y): ");
+
+        // does the program once, then makes sure that the format is correct so the program does not crash
         do {
-            coordinate1 = scan.nextLine();
+            coordinate1 = scan.nextLine().trim();
             correctFormat = formatChecker(coordinate1);
             if (!correctFormat) {
                 System.out.print("Please use the correct format of (x, y): ");
             } else {
-                x1 = Integer.parseInt(coordinate1.substring(coordinate1.indexOf("(") + 1, coordinate1.indexOf(",")));
-                y1 = Integer.parseInt(coordinate1.substring(coordinate1.indexOf(",") + 2, coordinate1.indexOf(")")));
+                // parsing bc right format
+                x1 = Integer.parseInt(coordinate1.substring(coordinate1.indexOf("(") + 1, coordinate1.indexOf(",")).trim());
+                y1 = Integer.parseInt(coordinate1.substring(coordinate1.indexOf(",") + 1, coordinate1.indexOf(")")).trim());
                 System.out.println(x1);
                 System.out.println(y1);
             }
@@ -40,29 +45,33 @@ public class LinearEquationLogic {
 
         // resetting it
         correctFormat = false;
-
         System.out.print("Type your second coordinate, in format (x, y): ");
+
+        // does the program once, then makes sure that the format is correct so the program does not crash
         do {
-            coordinate2 = scan.nextLine();
+            coordinate2 = scan.nextLine().trim();
             correctFormat = formatChecker(coordinate2);
             if (!correctFormat) {
                 System.out.print("Please use the correct format of (x, y): ");
             } else {
-                x2 = Integer.parseInt(coordinate2.substring(coordinate2.indexOf("(") + 1, coordinate2.indexOf(",")));
-                y2 = Integer.parseInt(coordinate2.substring(coordinate2.indexOf(",") + 2, coordinate2.indexOf(")")));
+                // parsing bc right format
+                x2 = Integer.parseInt(coordinate2.substring(coordinate2.indexOf("(") + 1, coordinate2.indexOf(",")).trim());
+                y2 = Integer.parseInt(coordinate2.substring(coordinate2.indexOf(",") + 1, coordinate2.indexOf(")")).trim());
                 System.out.println(x2);
                 System.out.println(y2);
             }
         } while (!correctFormat);
+        LinearEquation linearEquation = new LinearEquation(x1,y1,x2,y2);
     }
-// use .trim() on x and y strings
+
+    public void menu() {
+        System.out.print("--- Menu ---\n1 = Line Info\n 2 = Slope\n3 = ");
+    }
     public boolean formatChecker(String coordinate) {
         // used to make sure user does right format
         int idxOpenParenthesis = coordinate.indexOf("(");
         int idxCloseParenthesis = coordinate.indexOf(")");
         int idxComma = coordinate.indexOf(",");
-        int idxNegativeSign1 = coordinate.indexOf("-");
-        int idxNegativeSign2 = coordinate.lastIndexOf("-");
         int idxSpace = coordinate.indexOf(" ");
 
         if (idxOpenParenthesis != 0) {
@@ -71,14 +80,6 @@ public class LinearEquationLogic {
             return false;
         } else if (idxComma + 1 == idxCloseParenthesis) {
             return false;
-        } else if (idxOpenParenthesis + 1 == idxComma) {
-            return false;
-        } else if (idxComma + 2 == idxCloseParenthesis) {
-            return false;
-        } else if (idxComma + 1 != idxSpace){
-            return false;
-        } else if (idxComma + 1 == idxNegativeSign1) {
-            return false;
-        } else return idxComma + 1 != idxNegativeSign2;
+        } else return idxOpenParenthesis + 1 != idxComma;
     }
 }
