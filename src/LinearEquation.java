@@ -45,7 +45,7 @@ public class LinearEquation {
 
     }
 
-    public String fractionMaker(int numerator, int denominator) {
+    private String fractionMaker(int numerator, int denominator) {
         // checking for horizontal slope of 0
         if (slope() == 0) {
             return "";

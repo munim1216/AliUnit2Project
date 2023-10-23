@@ -3,7 +3,6 @@ public class LinearEquationLogic {
     // instance variables
     String coordinate1;
     String coordinate2;
-    boolean correctFormat;
     int x1;
     int y1;
     int x2;
@@ -25,6 +24,7 @@ public class LinearEquationLogic {
     }
 
     public void welcome() {
+        boolean correctFormat;
         System.out.println("Hello User!");
         System.out.print("Type your first coordinate, in format (x, y): ");
 
@@ -65,7 +65,16 @@ public class LinearEquationLogic {
     }
 
     public void menu() {
-        System.out.print("--- Menu ---\n1 = Line Info\n 2 = Slope\n3 = ");
+        String userInput;
+        int userInputNum;
+
+        System.out.print("--- Menu ---\n1 = Line info\n 2 = Slope\n3 = Distance between points\n4 = Coordinate of an x-value\n5 = New linear equation\n6 = End program\nType your choice:");
+        userInput = scan.nextLine();
+        try {
+        userInputNum = Integer.parseInt(userInput);
+        } catch() {
+
+        }
     }
     public boolean formatChecker(String coordinate) {
         // used to make sure user does right format
