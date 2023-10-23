@@ -55,7 +55,7 @@ public class LinearEquationLogic {
             }
         } while (!correctFormat);
     }
-
+// use .trim() on x and y strings
     public boolean formatChecker(String coordinate) {
         // used to make sure user does right format
         int idxOpenParenthesis = coordinate.indexOf("(");
