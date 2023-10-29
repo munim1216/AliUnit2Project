@@ -15,33 +15,28 @@ public class LinearEquationLogic {
         start();
     }
 
-    // getter methods
-    public int getX1() {return x1;}
-    public int getX2() {return x2;}
-    public int getY1() {return y1;}
-    public int getY2() {return y2;}
-
     public void start() {
         System.out.println("Hello User!");
         changeLinearEquation();
+        menu();
     }
 
     public void changeLinearEquation() {
-
 
         System.out.print("Type your first coordinate, in format (x, y): ");
         do {
             // getting user input
             coordinate1 = scan.nextLine().trim();
-            if (!formatChecker(coordinate1)) {
-                System.out.print("Please use the correct format of (x, y): ");
-            } else {
+            if (formatChecker(coordinate1)) {
                 // parsing bc right format
                 x1 = Integer.parseInt(coordinate1.substring(coordinate1.indexOf("(") + 1, coordinate1.indexOf(",")).trim());
                 y1 = Integer.parseInt(coordinate1.substring(coordinate1.indexOf(",") + 1, coordinate1.indexOf(")")).trim());
                 // testing code
                 System.out.println(x1);
                 System.out.println(y1);
+            } else {
+                // forcing user to put in correct format
+                System.out.print("Please use the correct format of (x, y): ");
             }
         } while (!formatChecker(coordinate1));
 
@@ -51,53 +46,78 @@ public class LinearEquationLogic {
         do {
             // getting user input
             coordinate2 = scan.nextLine().trim();
-            if (!formatChecker(coordinate2)) {
-                System.out.print("Please use the correct format of (x, y): ");
-            } else {
+            if (formatChecker(coordinate2)) {
                 // parsing bc right format
                 x2 = Integer.parseInt(coordinate2.substring(coordinate2.indexOf("(") + 1, coordinate2.indexOf(",")).trim());
                 y2 = Integer.parseInt(coordinate2.substring(coordinate2.indexOf(",") + 1, coordinate2.indexOf(")")).trim());
                 // testing code
                 System.out.println(x2);
                 System.out.println(y2);
+            } else {
+                // forcing user to put in correct format
+                System.out.print("Please use the correct format of (x, y): ");
             }
         } while (!formatChecker(coordinate2));
+
+        // to make sure coordinate one is to the left of coordinate two, to make  my program not mess up
+        if (x2 < x1) {
+            int xtemp = x1;
+            int ytemp = y1;
+            x1 = x2;
+            y1 = y2;
+            x2 = xtemp;
+            y2 = ytemp;
+        }
         equation = new LinearEquation(x1,y1,x2,y2);
+        System.out.println(equation);
     }
 
     // menu for the user to choose what they want to do
     public void menu() {
         String userInput;
         int userInputNum;
-        System.out.print("--- Menu ---\n1 = Line info\n 2 = Slope\n3 = Distance between points\n4 = Coordinate of an x-value\n5 = New linear equation\n6 = End program\nType your choice:");
+        System.out.print("\n--- Menu ---\n1 = Line info\n2 = Slope\n3 = Distance between points\n4 = Coordinate of an x-value\n5 = New linear equation\n6 = End program\n\nType your choice: ");
         userInput = scan.nextLine();
         if (typeOfInput(userInput)) {
             userInputNum = Integer.parseInt(userInput);
+
+            // if statement checks what int the userInputNum is, and decides which option it aligns with if any
             if (userInputNum < 0 || userInputNum > 7) {
                 System.out.println("Error, please try again");
                 menu();
             } else if (userInputNum == 1) {
-                equation.lineInfo();
+                System.out.println("\n--- Line Info ---");
+                System.out.println(equation.lineInfo());
                 menu();
             } else if (userInputNum == 2) {
-                equation.slope();
+                System.out.println("\n--- Slope ---");
+                System.out.println(equation.slope());
                 menu();
             } else if (userInputNum == 3) {
-                equation.distance();
+                System.out.println("\n--- Distance Between Points ---");
+                System.out.println(equation.distance());
                 menu();
             } else if (userInputNum == 4) {
+                System.out.println("What is the X value?: ");
                 userInput = scan.nextLine();
+                // needs to make sure its the right kind of input
                 if (typeOfInput(userInput)) {
-                    equation.coordinateForX(Integer.parseInt(userInput));
+                    System.out.println("\n--- Coordinate Of X ---");
+                    System.out.println(equation.coordinateForX(Integer.parseInt(userInput)));
                 } else {
                     System.out.println("Error, please try again");
                 }
                 menu();
             } else if (userInputNum == 5) {
-
+                System.out.println("\n--- New Equation ---");
+                changeLinearEquation();
+                menu();
             } else if (userInputNum == 6) {
-
+                System.out.println("Goodbye!");
             }
+        } else {
+            System.out.println("Error, please try again");
+            menu();
         }
     }
 

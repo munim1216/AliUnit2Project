@@ -6,6 +6,7 @@ public class LinearEquation {
     private int y2;
 
     public LinearEquation(int x1, int y1, int x2, int y2) {
+        // constructor
         this.x1 = x1;
         this.y1 = y1;
         this.x2 = x2;
@@ -17,11 +18,11 @@ public class LinearEquation {
     }
 
     public double slope() {
-        return roundedToHundreth((double) (y2 - y1) / (x2 - x1));
-    }
-
-    public double unroundedSlope() {
-        return (double) (y2 - y1) / (x2 - x1);
+        if ((x2 - x1) == 0) {
+            return 0.0;
+        } else {
+            return roundedToHundreth((double) (y2 - y1) / (x2 - x1));
+        }
     }
 
     public double yIntercept() {
@@ -29,39 +30,30 @@ public class LinearEquation {
     }
 
     public String equation() {
-        if (slope() == 0 && yIntercept() % 1 == 0) {
-            // checking for horizontal slope of 0 & whole number intercept
-            return "y = " + (int) yIntercept();
-        } else if (slope() == 0) {
-            // checking for horizontal slope of 0 & not whole number intercept
-            return "y = " + (int) yIntercept();
-        } else if (yIntercept() % 1 == 0) {
-            // checking for whole number intercept
-            return "y = " + fractionMaker((y2 - y1), (x2 - x1)) + "x + " + (int) yIntercept();
-        } else {
-            // all other cases
-            return "y = " + fractionMaker((y2 - y1), (x2 - x1)) + "x + " + yIntercept();
+        String equation = "y = "; // the string that stores the equation
+
+        if (slope() == -1.0) { // if the slope is -1 there is no need to show the 1, just a -
+            equation += "-x";
+        } else if (slope() == 1.0) { // if the slope is 1 there is no need to add the 1
+            equation += "x";
+        } else if (slope() != 0 && slope() % 1 == 0) { // if the slope isn't 0 (flat line) and it's a whole number show it
+            equation += slope() + "x";
+        } else if (slope() != 0) { // if the slope isn't 0 (flat line) show it
+            equation += fractionMaker((y2 - y1), (x2 - x1)) + "x";
         }
 
+        if (yIntercept() != 0 && yIntercept() > 0) { // making sure that the y intercept isn't 0, and is positive
+            equation += " + " + yIntercept();
+        } else if (yIntercept() != 0 && yIntercept() < 0) { // making sure the y intercept isn't 0, and is negative
+            equation += " - " + (-1 * yIntercept());
+        }
+        return equation; // the final equation returned
     }
 
-    private String fractionMaker(int numerator, int denominator) {
-        // checking for horizontal slope of 0
-        if (slope() == 0) {
-            return "";
-        }
-        // fraction making
-        if (numerator % denominator == 0 && numerator / denominator != 1) {
-            return "" + numerator;
-        } else if (numerator % denominator == 0 && numerator / denominator == 1) {
-            return "";
-        } else {
-            return numerator + "/" + denominator;
-        }
-    }
+
 
     public String coordinateForX(int x) {
-        return "(" + x + ", " + (unroundedSlope() * x + yIntercept()) + ")";
+        return "(" + x + ", " + (unroundedSlope() * x + yIntercept()) + ")"; // unrounded slope for max precision
     }
 
     private double roundedToHundreth(double toRound) {
@@ -71,9 +63,55 @@ public class LinearEquation {
     public String lineInfo() {
         String lineInfo = "The two points are: (" + x1 + ", " + y1 + ") and (" + x2 + ", " + y2 + ")";
         lineInfo += "\nThe equation of the line between these points is: " + equation();
-        lineInfo += "\nThe slope of this line is: " + slope();
+
+        // checking if the slope is 0 to determine what to output
+        if (slope() == 0) {
+            lineInfo += "\nThe slope of this line is: 0, as it is a vertical line";
+        } else {
+            lineInfo += "\nThe slope of this line is: " + slope();
+        }
+
         lineInfo += "\nThe y-intercept of this line is: " + yIntercept();
-        lineInfo += "\nThe distance between these points is " + distance();
+        lineInfo += "\nThe distance between these points is " + distance() + " units";
         return lineInfo;
+    }
+
+    // private helper method to ensure accurate results
+    private double unroundedSlope() {
+        return (double) (y2 - y1) / (x2 - x1);
+    }
+
+    // private helper method that makes fractions
+    private String fractionMaker(int numerator, int denominator) {
+        // string that stores the fraction
+        String fraction = "";
+        // checking for horizontal slope of 0
+        if (slope() == 0) {
+            return fraction;
+        }
+
+        // simplifying the fraction
+        for (int i = 1; i < Math.abs(numerator) || i < Math.abs(denominator); i++) {
+            if (numerator % i == 0 && denominator % i == 0) {
+                numerator = numerator / i;
+                denominator = denominator / i;
+            }
+        }
+
+        // fraction making
+        if (numerator % denominator == 0 && numerator / denominator != 1) {
+            fraction = "" + numerator;
+        } else if (numerator % denominator == 0 && numerator / denominator == 1) {
+            return fraction;
+        } else {
+            fraction = numerator + "/" + denominator;
+            System.out.println(denominator);
+        }
+        // checking if the negative sign is on the denominator or numerator
+        if (denominator < 0 && numerator > 0) {
+            System.out.println("confirm"); // test code
+            fraction = "-" + fraction.substring(0, fraction.indexOf("/") + 1) + fraction.substring(fraction.indexOf("-") + 1);
+        }
+        return fraction;
     }
 }
