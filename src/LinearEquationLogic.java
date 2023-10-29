@@ -31,9 +31,6 @@ public class LinearEquationLogic {
                 // parsing bc right format
                 x1 = Integer.parseInt(coordinate1.substring(coordinate1.indexOf("(") + 1, coordinate1.indexOf(",")).trim());
                 y1 = Integer.parseInt(coordinate1.substring(coordinate1.indexOf(",") + 1, coordinate1.indexOf(")")).trim());
-                // testing code
-                System.out.println(x1);
-                System.out.println(y1);
             } else {
                 // forcing user to put in correct format
                 System.out.print("Please use the correct format of (x, y): ");
@@ -50,9 +47,6 @@ public class LinearEquationLogic {
                 // parsing bc right format
                 x2 = Integer.parseInt(coordinate2.substring(coordinate2.indexOf("(") + 1, coordinate2.indexOf(",")).trim());
                 y2 = Integer.parseInt(coordinate2.substring(coordinate2.indexOf(",") + 1, coordinate2.indexOf(")")).trim());
-                // testing code
-                System.out.println(x2);
-                System.out.println(y2);
             } else {
                 // forcing user to put in correct format
                 System.out.print("Please use the correct format of (x, y): ");
@@ -69,7 +63,6 @@ public class LinearEquationLogic {
             y2 = ytemp;
         }
         equation = new LinearEquation(x1,y1,x2,y2);
-        System.out.println(equation);
     }
 
     // menu for the user to choose what they want to do
@@ -95,12 +88,12 @@ public class LinearEquationLogic {
                 menu();
             } else if (userInputNum == 3) {
                 System.out.println("\n--- Distance Between Points ---");
-                System.out.println(equation.distance());
+                System.out.println(equation.distance() + " units");
                 menu();
             } else if (userInputNum == 4) {
-                System.out.println("What is the X value?: ");
+                System.out.print("What is the X value?: ");
                 userInput = scan.nextLine();
-                // needs to make sure its the right kind of input
+                // needs to make sure it's the right kind of input
                 if (typeOfInput(userInput)) {
                     System.out.println("\n--- Coordinate Of X ---");
                     System.out.println(equation.coordinateForX(Integer.parseInt(userInput)));
@@ -134,7 +127,9 @@ public class LinearEquationLogic {
             return false;
         } else if (idxComma + 1 == idxCloseParenthesis) {
             return false;
-        } else return idxOpenParenthesis + 1 != idxComma;
+        } else if (idxOpenParenthesis + 1 == idxComma) {
+            return false;
+        } else return typeOfInput(coordinate.substring(idxOpenParenthesis, idxComma)) && typeOfInput(coordinate.substring(idxComma) + 1); // checking if there is any letters or other unauthorized characters
     }
 
     // private method used internally to check the input type

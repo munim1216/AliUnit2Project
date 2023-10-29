@@ -37,23 +37,39 @@ public class LinearEquation {
         } else if (slope() == 1.0) { // if the slope is 1 there is no need to add the 1
             equation += "x";
         } else if (slope() != 0 && slope() % 1 == 0) { // if the slope isn't 0 (flat line) and it's a whole number show it
-            equation += slope() + "x";
+            equation += cleanNum(slope()) + "x";
         } else if (slope() != 0) { // if the slope isn't 0 (flat line) show it
             equation += fractionMaker((y2 - y1), (x2 - x1)) + "x";
         }
 
-        if (yIntercept() != 0 && yIntercept() > 0) { // making sure that the y intercept isn't 0, and is positive
-            equation += " + " + yIntercept();
-        } else if (yIntercept() != 0 && yIntercept() < 0) { // making sure the y intercept isn't 0, and is negative
-            equation += " - " + (-1 * yIntercept());
+        if (equation.equals("y = ")) { // checks if the slope is 0 or not
+            if (yIntercept() != 0 && yIntercept() > 0) { // making sure that the y intercept isn't 0, and is positive
+                equation += cleanNum(yIntercept());
+            } else if (yIntercept() != 0 && yIntercept() < 0) {
+                equation += cleanNum(yIntercept());
+            }
+        } else {
+            if (yIntercept() != 0 && yIntercept() > 0) { // making sure that the y intercept isn't 0, and is positive
+                equation += " + " + cleanNum(yIntercept());
+            } else if (yIntercept() != 0 && yIntercept() < 0) {
+                equation += " - " + cleanNum(yIntercept() * -1);
+            }
         }
         return equation; // the final equation returned
     }
 
 
+    // helper method to make whole numbers look prettier
+    public String cleanNum(double toBeCleaned) {
+        if ((int)toBeCleaned == toBeCleaned) {
+            return "" + (int) toBeCleaned;
+        } else {
+            return "" + toBeCleaned;
+        }
+    }
 
     public String coordinateForX(int x) {
-        return "(" + x + ", " + (unroundedSlope() * x + yIntercept()) + ")"; // unrounded slope for max precision
+        return "(" + x + ", " + cleanNum((unroundedSlope() * x + yIntercept())) + ")"; // unrounded slope for max precision
     }
 
     private double roundedToHundreth(double toRound) {
@@ -68,11 +84,11 @@ public class LinearEquation {
         if (slope() == 0) {
             lineInfo += "\nThe slope of this line is: 0, as it is a vertical line";
         } else {
-            lineInfo += "\nThe slope of this line is: " + slope();
+            lineInfo += "\nThe slope of this line is: " + cleanNum(slope());
         }
 
-        lineInfo += "\nThe y-intercept of this line is: " + yIntercept();
-        lineInfo += "\nThe distance between these points is " + distance() + " units";
+        lineInfo += "\nThe y-intercept of this line is: " + cleanNum(yIntercept());
+        lineInfo += "\nThe distance between these points is " + cleanNum(distance()) + " units";
         return lineInfo;
     }
 
@@ -109,9 +125,10 @@ public class LinearEquation {
         }
         // checking if the negative sign is on the denominator or numerator
         if (denominator < 0 && numerator > 0) {
-            System.out.println("confirm"); // test code
             fraction = "-" + fraction.substring(0, fraction.indexOf("/") + 1) + fraction.substring(fraction.indexOf("-") + 1);
         }
         return fraction;
     }
+
+
 }
