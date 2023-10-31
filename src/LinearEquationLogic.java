@@ -129,7 +129,7 @@ public class LinearEquationLogic {
             return false;
         } else if (idxOpenParenthesis + 1 == idxComma) {
             return false;
-        } else return typeOfInput(coordinate.substring(idxOpenParenthesis, idxComma)) && typeOfInput(coordinate.substring(idxComma) + 1); // checking if there is any letters or other unauthorized characters
+        } else return typeOfInput(coordinate.substring(idxOpenParenthesis + 1, idxComma).trim()) && typeOfInput(coordinate.substring(idxComma + 1, idxCloseParenthesis).trim()); // checking if there is any letters or other unauthorized characters
     }
 
     // private method used internally to check the input type

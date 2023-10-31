@@ -26,7 +26,10 @@ public class LinearEquation {
     }
 
     public double yIntercept() {
-        return roundedToHundreth(slope() * -x1 + y1);
+        if (slope() != 0) {
+            return roundedToHundreth(slope() * -x1 + y1);
+        }
+        return x1;
     }
 
     public String equation() {
@@ -40,9 +43,11 @@ public class LinearEquation {
             equation += cleanNum(slope()) + "x";
         } else if (slope() != 0) { // if the slope isn't 0 (flat line) show it
             equation += fractionMaker((y2 - y1), (x2 - x1)) + "x";
+        } else if (slope() == 0) {
+            equation = "x = ";
         }
 
-        if (equation.equals("y = ")) { // checks if the slope is 0 or not
+        if (equation.equals("x = ")) { // checks if the slope is 0 or not
             if (yIntercept() != 0 && yIntercept() > 0) { // making sure that the y intercept isn't 0, and is positive
                 equation += cleanNum(yIntercept());
             } else if (yIntercept() != 0 && yIntercept() < 0) {
@@ -87,7 +92,12 @@ public class LinearEquation {
             lineInfo += "\nThe slope of this line is: " + cleanNum(slope());
         }
 
-        lineInfo += "\nThe y-intercept of this line is: " + cleanNum(yIntercept());
+        // checking if slope is 0 to determine what to output
+        if (slope() == 0) {
+            lineInfo += "\nThe x-intercept of this line is: (" + cleanNum(yIntercept()) + ", 0)";
+        } else {
+            lineInfo += "\nThe y-intercept of this line is: (0, " + cleanNum(yIntercept()) + ")";
+        }
         lineInfo += "\nThe distance between these points is " + cleanNum(distance()) + " units";
         return lineInfo;
     }
